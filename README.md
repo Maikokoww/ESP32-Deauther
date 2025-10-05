@@ -1,7 +1,7 @@
 # ESP32 WiFi Deauther
 Simple on boot ESP32-Wroom WiFi deauther, no configuration, just deauthing nearby WiFi on power
 
-![Image](pic/IMG_1672.JPEG)
+![Image](pic/IMG_1679.JPEG)
 
 ## DISCLAIMER
 Ethical purposes only
