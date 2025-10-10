@@ -16,7 +16,7 @@ Ethical purposes only
 
 ## Firmware
 ### Web
-Download the [firmware.bin](src/firmware.bin) file and use an [Online Web Flasher](https://esptool.spacehuhn.com/)
+Download the [firmware.bin](src/onBootDeauth.bin) file and use an [Online Web Flasher](https://esptool.spacehuhn.com/)
 
 ### VSCode
 1. Download VSCode
